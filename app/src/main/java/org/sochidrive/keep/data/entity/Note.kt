@@ -1,3 +1,51 @@
 package org.sochidrive.keep.data.entity
 
-class Note (val title: String, val text: String, val color: Int)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+import org.sochidrive.keep.R
+import java.util.*
+
+@Parcelize
+data class Note (
+        val id: String,
+        val title: String,
+        val text: String,
+        val color: Color = Color.WHITE,
+        val lastChange: Date = Date()
+): Parcelable {
+
+    override fun equals(other: Any?): Boolean {
+        if(this === other) return true
+        if(javaClass != other?.javaClass) return false
+        other as Note
+        if(id != other.id) return false
+
+        return true
+    }
+
+
+
+    fun getColor(color: Color): Int {
+        return when (color) {
+            Color.WHITE -> R.color.white
+            Color.YELLOW -> R.color.yellow
+            Color.GREEN -> R.color.green
+            Color.BLUE -> R.color.blue
+            Color.RED -> R.color.red
+            Color.VIOLET -> R.color.violet
+        }
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
+    enum class Color {
+        WHITE,
+        YELLOW,
+        GREEN,
+        BLUE,
+        RED,
+        VIOLET
+    }
+}

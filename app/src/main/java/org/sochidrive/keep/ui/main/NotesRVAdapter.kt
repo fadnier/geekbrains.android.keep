@@ -1,14 +1,17 @@
 package org.sochidrive.keep.ui.main
 
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_note.view.*
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
 
-class NotesRVAdapter: RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
+class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
     var notes: List<Note> = listOf()
         set(value) {
             field = value
@@ -22,11 +25,15 @@ class NotesRVAdapter: RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = notes.size
 
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         fun bind(note: Note) = with(itemView) {
             tv_title.text = note.title
             tv_text.text = note.text
-            setBackgroundColor(note.color)
+            (itemView as CardView).setBackgroundColor(ResourcesCompat.getColor(resources, note.getColor(note.color), null))
+
+            itemView.setOnClickListener {
+                onClickListener?.invoke(note)
+            }
         }
     }
 }

@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import org.sochidrive.keep.ui.base.BaseActivity
 import org.sochidrive.keep.ui.main.MainActivity
 
-class SpashActivity: BaseActivity<Boolean?, SplashViewState>() {
+class SplashActivity: BaseActivity<Boolean?, SplashViewState>() {
 
     companion object {
-        fun start(context: Context) = Intent(context, SpashActivity::class.java).apply { context.startActivity(this) }
+        fun start(context: Context) = Intent(context, SplashActivity::class.java).apply { context.startActivity(this) }
     }
 
     override val layoutRes = null

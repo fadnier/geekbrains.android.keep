@@ -31,6 +31,7 @@ class MainActivity: BaseActivity<List<Note>?, MainViewState>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setSupportActionBar(toolbar)
 
         rv_notes.layoutManager = GridLayoutManager(this,3)
 

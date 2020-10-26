@@ -7,9 +7,9 @@ import java.util.*
 
 @Parcelize
 data class Note (
-        val id: String,
-        val title: String,
-        val text: String,
+        val id: String = "",
+        val title: String = "",
+        val text: String = "",
         val color: Color = Color.WHITE,
         val lastChange: Date = Date()
 ): Parcelable {
@@ -21,19 +21,6 @@ data class Note (
         if(id != other.id) return false
 
         return true
-    }
-
-
-
-    fun getColor(color: Color): Int {
-        return when (color) {
-            Color.WHITE -> R.color.white
-            Color.YELLOW -> R.color.yellow
-            Color.GREEN -> R.color.green
-            Color.BLUE -> R.color.blue
-            Color.RED -> R.color.red
-            Color.VIOLET -> R.color.violet
-        }
     }
 
     override fun hashCode(): Int {

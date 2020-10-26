@@ -1,18 +1,29 @@
 package org.sochidrive.keep.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Observer
 import org.sochidrive.keep.data.NotesRepository
+import org.sochidrive.keep.data.entity.Note
+import org.sochidrive.keep.data.model.NoteResult
+import org.sochidrive.keep.ui.base.BaseViewModel
 
-class MainViewModel: ViewModel() {
-    private val viewStateLiveData: MutableLiveData<MainViewState> = MutableLiveData()
+class MainViewModel: BaseViewModel<List<Note>?, MainViewState>() {
 
-    init {
-        NotesRepository.getNotes().observeForever {
-            viewStateLiveData.value = viewStateLiveData.value?.copy(notes = it) ?: MainViewState(it)
+    private val notesObserver = Observer {result: NoteResult? ->
+        result?: return@Observer
+        when(result) {
+            is NoteResult.Success<*> -> viewStateLiveData.value = MainViewState(result.data as? List<Note>)
+            is NoteResult.Error -> viewStateLiveData.value = MainViewState(error =  result.error)
         }
     }
 
-    fun viewState(): LiveData<MainViewState> = viewStateLiveData
+    private val repositoryNotes = NotesRepository.getNotes()
+
+    init {
+        repositoryNotes.observeForever(notesObserver)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        repositoryNotes.removeObserver(notesObserver)
+    }
 }

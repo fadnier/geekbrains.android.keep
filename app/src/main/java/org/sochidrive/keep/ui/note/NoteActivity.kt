@@ -3,32 +3,36 @@ package org.sochidrive.keep.ui.note
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_note.*
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
+import org.sochidrive.keep.ui.base.BaseActivity
+import org.sochidrive.keep.ui.base.getColor
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteActivity: AppCompatActivity() {
+class NoteActivity: BaseActivity<Note?, NoteViewState>() {
     companion object {
         private val EXTRA_NOTE = "note"
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
 
-        fun start(context: Context, note: Note? = null) = Intent(context, NoteActivity::class.java).apply {
+        fun start(context: Context, note: String? = null) = Intent(context, NoteActivity::class.java).apply {
             putExtra(EXTRA_NOTE, note)
             context.startActivity(this)
         }
     }
 
+    override val viewModel: NoteViewModel by lazy {
+        ViewModelProvider(this).get(NoteViewModel::class.java)
+    }
+    override val layoutRes = R.layout.activity_note
     private var note: Note? = null
-    lateinit var viewModel: NoteViewModel
+
 
     val textChangeListener = object: TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -38,25 +42,35 @@ class NoteActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_note)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        note = intent.getParcelableExtra(EXTRA_NOTE)
-        viewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
+        val noteId = intent.getStringExtra(EXTRA_NOTE)
 
+        noteId?.let {viewModel.loadNote(it)}?:
+        let { supportActionBar?.title = getString(R.string.new_keep)}
+
+        initView()
+    }
+
+    override fun renderData(data: Note?) {
+        this.note = data
         supportActionBar?.title = note?.lastChange?.let {
             SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault()).format(it)
-        } ?: getString(R.string.new_keep)
+        }?: getString(R.string.new_keep)
 
         initView()
     }
 
     private fun initView() {
+        et_title.removeTextChangedListener(textChangeListener)
+        et_body.removeTextChangedListener(textChangeListener)
+
         note?.let {
             et_title.setText(it.title)
             et_body.setText(it.text)
-            toolbar.setBackgroundColor(ResourcesCompat.getColor(resources,it.getColor(it.color),null))
+
+            toolbar.setBackgroundColor(ResourcesCompat.getColor(resources, getColor(it.color),null))
         }
         et_title.addTextChangedListener(textChangeListener)
         et_body.addTextChangedListener(textChangeListener)

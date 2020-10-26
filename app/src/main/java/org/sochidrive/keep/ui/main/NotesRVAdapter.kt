@@ -1,6 +1,5 @@
 package org.sochidrive.keep.ui.main
 
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_note.view.*
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
+import org.sochidrive.keep.ui.base.getColor
 
 class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
     var notes: List<Note> = listOf()
@@ -29,7 +29,7 @@ class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerVie
         fun bind(note: Note) = with(itemView) {
             tv_title.text = note.title
             tv_text.text = note.text
-            (itemView as CardView).setBackgroundColor(ResourcesCompat.getColor(resources, note.getColor(note.color), null))
+            (itemView as CardView).setBackgroundColor(ResourcesCompat.getColor(resources, getColor(note.color), null))
 
             itemView.setOnClickListener {
                 onClickListener?.invoke(note)

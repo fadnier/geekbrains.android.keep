@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity<T, S: BaseViewState<T>>: AppCompatActivity() {
     abstract val viewModel: BaseViewModel<T, S>
-    abstract val layoutRes: Int
+    abstract val layoutRes: Int?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(layoutRes)
+        layoutRes?.let {
+            setContentView(it)
+        }
         viewModel.getViewState().observe(this,{ value->
             value?: return@observe
             value.error?.let {

@@ -1,5 +1,7 @@
 package org.sochidrive.keep.ui.main
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,6 +12,10 @@ import org.sochidrive.keep.ui.base.BaseActivity
 import org.sochidrive.keep.ui.note.NoteActivity
 
 class MainActivity: BaseActivity<List<Note>?, MainViewState>() {
+
+    companion object {
+        fun start(context: Context) = Intent(context, MainActivity::class.java).apply { context.startActivity(this) }
+    }
 
     override val viewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)

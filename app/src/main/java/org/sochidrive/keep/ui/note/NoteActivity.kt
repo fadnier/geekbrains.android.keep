@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_note.*
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.ui.base.BaseActivity
-import org.sochidrive.keep.ui.base.getColor
+import org.sochidrive.keep.common.getColor
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -70,7 +70,7 @@ class NoteActivity: BaseActivity<Note?, NoteViewState>() {
             et_title.setText(it.title)
             et_body.setText(it.text)
 
-            toolbar.setBackgroundColor(ResourcesCompat.getColor(resources, getColor(it.color),null))
+            toolbar.setBackgroundColor(ResourcesCompat.getColor(resources, it.getColor(it.color),null))
         }
         et_title.addTextChangedListener(textChangeListener)
         et_body.addTextChangedListener(textChangeListener)

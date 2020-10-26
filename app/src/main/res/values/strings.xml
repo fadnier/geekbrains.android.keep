@@ -3,4 +3,5 @@
     <string name="new_keep">Новая заметка</string>
     <string name="title">Заголовок</string>
     <string name="textKeep">Текст заметки</string>
+    <string name="logout_menu_title">Выход</string>
 </resources>

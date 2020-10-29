@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.firebase.ui.auth.AuthUI
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.ui.base.BaseActivity
@@ -23,9 +24,7 @@ class MainActivity: BaseActivity<List<Note>?, MainViewState>() {
         fun start(context: Context) = Intent(context, MainActivity::class.java).apply { context.startActivity(this) }
     }
 
-    override val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+    override val viewModel: MainViewModel by viewModel()
     override val layoutRes = R.layout.activity_main
     lateinit var adapter: NotesRVAdapter
 
@@ -34,13 +33,11 @@ class MainActivity: BaseActivity<List<Note>?, MainViewState>() {
         setSupportActionBar(toolbar)
 
         rv_notes.layoutManager = GridLayoutManager(this,3)
-
         adapter = NotesRVAdapter {
             NoteActivity.start(this, it.id)
         }
 
         rv_notes.adapter = adapter
-
         fab.setOnClickListener {
             NoteActivity.start(this)
         }

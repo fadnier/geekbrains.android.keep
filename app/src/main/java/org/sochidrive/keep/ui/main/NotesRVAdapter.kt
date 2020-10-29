@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.cardview.widget.CardView
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_note.view.*
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
-import org.sochidrive.keep.common.getColor
+import org.sochidrive.keep.common.getColorInt
 
 class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
     var notes: List<Note> = listOf()
@@ -25,14 +25,16 @@ class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerVie
 
     override fun getItemCount(): Int = notes.size
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(note: Note) = with(itemView) {
-            tv_title.text = note.title
-            tv_text.text = note.text
-            (itemView as CardView).setBackgroundColor(ResourcesCompat.getColor(resources, note.getColor(note.color), null))
+    inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
+        fun bind(note: Note)  {
+            with(itemView) {
+                tv_title.text = note.title
+                tv_text.text = note.text
+                (itemView as CardView).setBackgroundColor(note.color.getColorInt(containerView.context))
 
-            itemView.setOnClickListener {
-                onClickListener?.invoke(note)
+                itemView.setOnClickListener {
+                    onClickListener?.invoke(note)
+                }
             }
         }
     }

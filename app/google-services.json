@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "450524964903",
+    "firebase_url": "https://geekbrains-android-keep.firebaseio.com",
+    "project_id": "geekbrains-android-keep",
+    "storage_bucket": "geekbrains-android-keep.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450524964903:android:fc1eb551942f9fe1dec602",
+        "android_client_info": {
+          "package_name": "org.sochidrive.keep"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450524964903-0r6c86522t7vl6o6kvsm972nlpemsr29.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA89yg49LGQsKlYUXyw70aWYfRCGBUu79o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450524964903-0r6c86522t7vl6o6kvsm972nlpemsr29.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

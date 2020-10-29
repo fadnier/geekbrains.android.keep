@@ -6,7 +6,7 @@ import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.data.model.NoteResult
 import org.sochidrive.keep.ui.base.BaseViewModel
 
-class MainViewModel: BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(val notesRepository: NotesRepository): BaseViewModel<List<Note>?, MainViewState>() {
 
     private val notesObserver = Observer {result: NoteResult? ->
         result?: return@Observer
@@ -16,7 +16,7 @@ class MainViewModel: BaseViewModel<List<Note>?, MainViewState>() {
         }
     }
 
-    private val repositoryNotes = NotesRepository.getNotes()
+    private val repositoryNotes = notesRepository.getNotes()
 
     init {
         repositoryNotes.observeForever(notesObserver)

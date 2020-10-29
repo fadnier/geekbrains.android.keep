@@ -1,9 +1,9 @@
-package org.sochidrive.keep.ui.base
+package org.sochidrive.keep.common
 
 import org.sochidrive.keep.R
 import org.sochidrive.keep.data.entity.Note
 
-fun getColor(color: Note.Color): Int {
+fun Note.getColor(color: Note.Color): Int {
     return when (color) {
         Note.Color.WHITE -> R.color.white
         Note.Color.YELLOW -> R.color.yellow

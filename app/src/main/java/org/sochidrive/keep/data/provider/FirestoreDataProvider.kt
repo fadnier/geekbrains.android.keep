@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import org.sochidrive.keep.data.entity.Note
+import org.sochidrive.keep.data.entity.User
 import org.sochidrive.keep.data.errors.NoAuthException
 import org.sochidrive.keep.data.model.NoteResult
-import org.sochidrive.keep.data.entity.User
+import java.lang.Exception
 
-class FirestoreDataProvider(val store: FirebaseFirestore, val auth: FirebaseAuth): DataProvider {
+class FirestoreDataProvider(val store: FirebaseFirestore, val auth: FirebaseAuth) : DataProvider {
 
     companion object {
         private const val NOTES_COLLECTION = "notes"
@@ -26,41 +27,63 @@ class FirestoreDataProvider(val store: FirebaseFirestore, val auth: FirebaseAuth
     }
 
     override fun getNotes() = MutableLiveData<NoteResult>().apply {
-        notesReference.addSnapshotListener {snapshot, error ->
-            error?.let {
-                value = NoteResult.Error(it)
-                return@addSnapshotListener
+        try {
+            notesReference.addSnapshotListener { snapshot, error ->
+                error?.let {
+                    value = NoteResult.Error(it)
+                    return@addSnapshotListener
+                }
+                snapshot?.let {
+                    val notes = it.documents.map { it.toObject(Note::class.java) }
+                    value = NoteResult.Success(notes)
+                }
             }
-            snapshot?.let {
-                val notes = it.documents.map { it.toObject(Note::class.java) }
-                value = NoteResult.Success(notes)
-            }
+        } catch (e: Throwable) {
+            value = NoteResult.Error(e)
         }
     }
 
     override fun saveNote(note: Note) = MutableLiveData<NoteResult>().apply {
-        notesReference.document(note.id).set(note)
-                .addOnSuccessListener { value = NoteResult.Success(note) }
-                .addOnFailureListener { value = NoteResult.Error(it) }
+        try {
+            notesReference.document(note.id).set(note)
+                .addOnSuccessListener {
+                    value = NoteResult.Success(note)
+                }.addOnFailureListener {
+                    value = NoteResult.Error(it)
+                }
+        } catch (e: Throwable) {
+            value = NoteResult.Error(e)
+        }
     }
 
     override fun deleteNote(id: String) = MutableLiveData<NoteResult>().apply {
-        notesReference.document(id).delete()
+        try {
+            notesReference.document(id).delete()
                 .addOnSuccessListener {
                     value = NoteResult.Success(null)
                 }.addOnFailureListener {
                     value = NoteResult.Error(it)
                 }
+
+        } catch (e: Throwable) {
+            value = NoteResult.Error(e)
+        }
     }
 
+
     override fun getNoteById(id: String) = MutableLiveData<NoteResult>().apply {
-        notesReference.document(id).get()
-                .addOnSuccessListener { snapshot->
+        try {
+            notesReference.document(id).get()
+                .addOnSuccessListener { snapshot ->
                     val note = snapshot.toObject(Note::class.java) as Note
                     value = NoteResult.Success(note)
-                }
-                .addOnFailureListener {
+                }.addOnFailureListener {
                     value = NoteResult.Error(it)
                 }
+        } catch (e: Throwable) {
+            value = NoteResult.Error(e)
+        }
     }
+
+
 }

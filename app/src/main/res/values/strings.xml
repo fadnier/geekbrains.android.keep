@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">geekbrains.android.keep</string>
-    <string name="new_keep">Новая заметка</string>
-    <string name="title">Заголовок</string>
-    <string name="textKeep">Текст заметки</string>
+    <string name="app_name">gb_kotlin</string>
+    <string name="new_note_title">Новая заметка</string>
     <string name="logout_menu_title">Выход</string>
-    <string name="you_understand">Вы уверены?</string>
-    <string name="Yes">Да</string>
-    <string name="note_change_color">Выбрать цвет</string>
+    <string name="logout_title">Выход</string>
+    <string name="logout_message">Вы уверены?</string>
+    <string name="logout_ok">Да</string>
+    <string name="logout_cancel">Нет</string>
+    <string name="note_change_color">Цвет</string>
     <string name="note_delete">Удалить</string>
-    <string name="note_delete_title">Удалить заметку?</string>
+    <string name="note_delete_title">Удалить заметку</string>
     <string name="note_delete_message">Вы уверены?</string>
-    <string name="note_delete_ok">OK</string>
-    <string name="note_delete_cancel">Отмена</string>
+    <string name="note_delete_ok">Да</string>
+    <string name="note_delete_cancel">Нет</string>
 </resources>

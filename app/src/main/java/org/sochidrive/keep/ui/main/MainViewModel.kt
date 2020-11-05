@@ -1,18 +1,19 @@
 package org.sochidrive.keep.ui.main
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.Observer
 import org.sochidrive.keep.data.NotesRepository
 import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.data.model.NoteResult
 import org.sochidrive.keep.ui.base.BaseViewModel
 
-class MainViewModel(val notesRepository: NotesRepository): BaseViewModel<List<Note>?, MainViewState>() {
+class MainViewModel(val notesRepository: NotesRepository) : BaseViewModel<List<Note>?, MainViewState>() {
 
-    private val notesObserver = Observer {result: NoteResult? ->
-        result?: return@Observer
-        when(result) {
+    private val notesObserver = Observer { result: NoteResult? ->
+        result ?: return@Observer
+        when (result) {
             is NoteResult.Success<*> -> viewStateLiveData.value = MainViewState(result.data as? List<Note>)
-            is NoteResult.Error -> viewStateLiveData.value = MainViewState(error =  result.error)
+            is NoteResult.Error -> viewStateLiveData.value = MainViewState(error = result.error)
         }
     }
 
@@ -22,8 +23,10 @@ class MainViewModel(val notesRepository: NotesRepository): BaseViewModel<List<No
         repositoryNotes.observeForever(notesObserver)
     }
 
-    override fun onCleared() {
+    @VisibleForTesting
+    public override fun onCleared() {
         super.onCleared()
         repositoryNotes.removeObserver(notesObserver)
     }
+
 }

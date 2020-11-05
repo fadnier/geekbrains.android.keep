@@ -7,8 +7,11 @@ import org.sochidrive.keep.ui.base.BaseViewModel
 class SplashViewModel(val notesRepository: NotesRepository): BaseViewModel<Boolean?, SplashViewState>() {
 
     fun requestUser(){
-        notesRepository.getCurrentUser().observeForever{
-            viewStateLiveData.value = it?.let { SplashViewState(true) } ?: let { SplashViewState(error = NoAuthException()) }
+        notesRepository.getCurrentUser().observeForever {
+            viewStateLiveData.value = it?.let { SplashViewState(true) } ?: let {
+                SplashViewState(error = NoAuthException())
+            }
         }
     }
+
 }

@@ -1,11 +1,16 @@
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
+
+androidExtensions {
+    experimental = true
+}
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
 
     defaultConfig {
         applicationId "org.sochidrive.keep"
@@ -13,8 +18,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'org.sochidrive.keep.TestAppJUnitRunner'
     }
 
     buildTypes {
@@ -26,26 +30,34 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
     implementation 'com.google.firebase:firebase-firestore:22.0.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
     implementation 'com.google.firebase:firebase-auth:20.0.0'
+
     implementation 'org.koin:koin-android:1.0.1'
     implementation 'org.koin:koin-android-viewmodel:1.0.1'
+
+
     testImplementation 'junit:junit:4.13'
+    testImplementation "io.mockk:mockk:1.10.2"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
+    androidTestImplementation "io.mockk:mockk-android:1.10.2"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation "androidx.core:core-ktx:1.3.2"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
 
 }
 repositories {

@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_note.view.*
+import kotlinx.android.synthetic.main.item_note.*
 import org.sochidrive.keep.R
-import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.common.getColorInt
+import org.sochidrive.keep.data.entity.Note
 
-class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
+class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null) : RecyclerView.Adapter<NotesRVAdapter.ViewHolder>() {
+
     var notes: List<Note> = listOf()
         set(value) {
             field = value
@@ -19,18 +20,25 @@ class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerVie
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_note,parent,false))
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_note,
+                parent,
+                false
+            )
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(notes[position])
 
-    override fun getItemCount(): Int = notes.size
+    override fun getItemCount() = notes.size
 
-    inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer {
+    inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
         fun bind(note: Note)  {
-            with(itemView) {
-                tv_title.text = note.title
-                tv_text.text = note.text
-                (itemView as CardView).setBackgroundColor(note.color.getColorInt(containerView.context))
+            with(note) {
+                tv_title.text = title
+                tv_text.text = text
+
+                (itemView as CardView).setCardBackgroundColor(note.color.getColorInt(containerView.context))
 
                 itemView.setOnClickListener {
                     onClickListener?.invoke(note)
@@ -38,4 +46,5 @@ class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null): RecyclerVie
             }
         }
     }
+
 }

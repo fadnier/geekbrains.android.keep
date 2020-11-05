@@ -7,6 +7,8 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
+import androidx.annotation.Dimension.DP
+import androidx.annotation.Dimension.PX
 import androidx.core.content.ContextCompat
 import org.sochidrive.keep.R
 import org.sochidrive.keep.common.dip
@@ -14,8 +16,8 @@ import org.sochidrive.keep.common.dip
 class ColorCircleView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
     companion object {
-        @Dimension(unit = Dimension.DP) private const val defRadiusDp = 16
-        @Dimension(unit = Dimension.DP) private const val defStrokeWidthDp = 1
+        @Dimension(unit = DP) private const val defRadiusDp = 16
+        @Dimension(unit = DP) private const val defStrokeWidthDp = 1
     }
 
     private val fillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -28,23 +30,21 @@ class ColorCircleView @JvmOverloads constructor(context: Context, attrs: Attribu
 
     private var center: Pair<Float, Float> = 0f to 0f
 
-    @Dimension(unit = Dimension.PX) var radius: Float = dip(defRadiusDp).toFloat()
+    @Dimension(unit = PX) var radius: Float = dip(defRadiusDp).toFloat()
 
-    @ColorRes
-    var fillColorRes: Int = R.color.white
+    @ColorRes var fillColorRes: Int = R.color.white
         set(value) {
             field = value
             fillPaint.color = ContextCompat.getColor(context, value)
         }
 
-    @ColorRes
-    var strokeColorRes: Int = R.color.text_secondary
+    @ColorRes var strokeColorRes: Int = R.color.text_secondary
         set(value) {
             field = value
             strokePaint.color = ContextCompat.getColor(context, value)
         }
 
-    @Dimension(unit = Dimension.PX) var strokeWidth: Float = dip(defStrokeWidthDp).toFloat()
+    @Dimension(unit = PX) var strokeWidth: Float = dip(defStrokeWidthDp).toFloat()
         set(value) {
             field = value
             strokePaint.strokeWidth = value

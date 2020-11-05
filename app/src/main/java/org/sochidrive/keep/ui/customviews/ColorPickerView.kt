@@ -7,9 +7,10 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.annotation.Dimension
+import androidx.annotation.Dimension.DP
 import org.sochidrive.keep.common.dip
-import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.common.getColorRes
+import org.sochidrive.keep.data.entity.Note
 
 class ColorPickerView : LinearLayout {
 
@@ -17,7 +18,7 @@ class ColorPickerView : LinearLayout {
         private const val PALETTE_ANIMATION_DURATION = 150L
         private const val HEIGHT = "height"
         private const val SCALE = "scale"
-        @Dimension(unit = Dimension.DP) private const val COLOR_VIEW_PADDING = 8
+        @Dimension(unit = DP) private const val COLOR_VIEW_PADDING = 8
     }
 
     var onColorClickListener: (color: Note.Color) -> Unit = { }
@@ -88,8 +89,8 @@ class ColorPickerView : LinearLayout {
     fun open() {
         animator.cancel()
         animator.setValues(
-                PropertyValuesHolder.ofInt(HEIGHT, measuredHeight, desiredHeight),
-                PropertyValuesHolder.ofFloat(SCALE, getChildAt(0).scaleX, 1f)
+            PropertyValuesHolder.ofInt(HEIGHT, measuredHeight, desiredHeight),
+            PropertyValuesHolder.ofFloat(SCALE, getChildAt(0).scaleX, 1f)
         )
         animator.start()
     }
@@ -97,8 +98,8 @@ class ColorPickerView : LinearLayout {
     fun close() {
         animator.cancel()
         animator.setValues(
-                PropertyValuesHolder.ofInt(HEIGHT, measuredHeight, 0),
-                PropertyValuesHolder.ofFloat(SCALE, getChildAt(0).scaleX, 0f)
+            PropertyValuesHolder.ofInt(HEIGHT, measuredHeight, 0),
+            PropertyValuesHolder.ofFloat(SCALE, getChildAt(0).scaleX, 0f)
         )
         animator.start()
     }

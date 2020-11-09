@@ -20,3 +20,5 @@ class App: Application() {
     }
 
 }
+
+//Перерыв 10 минут

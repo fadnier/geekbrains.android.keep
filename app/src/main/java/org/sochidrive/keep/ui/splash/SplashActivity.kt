@@ -6,7 +6,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import org.sochidrive.keep.ui.base.BaseActivity
 import org.sochidrive.keep.ui.main.MainActivity
 
-class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
+class SplashActivity : BaseActivity<Boolean>() {
 
     companion object {
         fun start(context: Context) = Intent(context, SplashActivity::class.java).apply {
@@ -22,7 +22,7 @@ class SplashActivity : BaseActivity<Boolean?, SplashViewState>() {
         viewModel.requestUser()
     }
 
-    override fun renderData(data: Boolean?) {
+    override fun renderData(data: Boolean) {
         data?.takeIf { it }?.let {
             startMainActivity()
         }

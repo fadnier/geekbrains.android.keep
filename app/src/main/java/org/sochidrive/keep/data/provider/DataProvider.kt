@@ -1,14 +1,14 @@
 package org.sochidrive.keep.data.provider
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.channels.ReceiveChannel
 import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.data.entity.User
 import org.sochidrive.keep.data.model.NoteResult
 
 interface DataProvider {
-    fun getNotes(): LiveData<NoteResult>
-    fun saveNote(note: Note): LiveData<NoteResult>
-    fun getNoteById(id: String): LiveData<NoteResult>
-    fun getCurrentUser(): LiveData<User?>
-    fun deleteNote(id: String) : LiveData<NoteResult>
+    fun subscribeToNotes(): ReceiveChannel<NoteResult>
+    suspend fun saveNote(note: Note): Note
+    suspend fun getNoteById(id: String): Note
+    suspend fun deleteNote(id: String)
+    suspend fun getCurrentUser(): User?
 }

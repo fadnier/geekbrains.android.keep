@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.activity_note.*
@@ -19,9 +18,11 @@ import org.sochidrive.keep.ui.base.BaseActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
+class NoteActivity : BaseActivity<NoteData>() {
+
     companion object {
         private val EXTRA_NOTE = "note"
+
         private const val DATE_TIME_FORMAT = "dd.MM.yy HH:mm"
 
         fun start(context: Context, noteId: String? = null) = Intent(context, NoteActivity::class.java).apply {
@@ -29,6 +30,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
             context.startActivity(this)
         }
     }
+
 
     override val viewModel: NoteViewModel by viewModel()
     override val layoutRes = R.layout.activity_note
@@ -57,7 +59,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
         initView()
     }
 
-    override fun renderData(data: NoteViewState.Data) {
+    override fun renderData(data: NoteData) {
         if(data.isDeleted) finish()
 
         this.note = data.note
@@ -85,6 +87,7 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
                 Note.Color.VIOLET -> R.color.violet
             }
             toolbar.setBackgroundColor(ResourcesCompat.getColor(resources, color, null))
+            this.color = it.color
         }
 
         colorPicker.onColorClickListener = {
@@ -140,4 +143,5 @@ class NoteActivity : BaseActivity<NoteViewState.Data, NoteViewState>() {
             colorPicker.open()
         }
     }
+
 }

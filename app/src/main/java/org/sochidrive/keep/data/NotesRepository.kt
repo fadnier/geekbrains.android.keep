@@ -4,9 +4,9 @@ import org.sochidrive.keep.data.entity.Note
 import org.sochidrive.keep.data.provider.DataProvider
 
 class NotesRepository(val dataProvider: DataProvider) {
-    fun getNotes() = dataProvider.getNotes()
-    fun saveNote(note: Note) = dataProvider.saveNote(note)
-    fun getNoteById(id: String) = dataProvider.getNoteById(id)
-    fun deleteNote(id: String) = dataProvider.deleteNote(id)
-    fun getCurrentUser() = dataProvider.getCurrentUser()
+    fun getNotes() = dataProvider.subscribeToNotes()
+    suspend fun saveNote(note: Note) = dataProvider.saveNote(note)
+    suspend fun getNoteById(id: String) = dataProvider.getNoteById(id)
+    suspend fun deleteNote(id: String) = dataProvider.deleteNote(id)
+    suspend fun getCurrentUser() = dataProvider.getCurrentUser()
 }

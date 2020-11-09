@@ -29,7 +29,6 @@ class NotesRVAdapter(val onClickListener: ((Note) -> Unit)? = null) : RecyclerVi
         )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(notes[position])
-
     override fun getItemCount() = notes.size
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {

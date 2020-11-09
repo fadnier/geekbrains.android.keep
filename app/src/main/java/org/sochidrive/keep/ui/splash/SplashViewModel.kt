@@ -1,17 +1,15 @@
 package org.sochidrive.keep.ui.splash
 
+import kotlinx.coroutines.launch
 import org.sochidrive.keep.data.NotesRepository
 import org.sochidrive.keep.data.errors.NoAuthException
 import org.sochidrive.keep.ui.base.BaseViewModel
 
-class SplashViewModel(val notesRepository: NotesRepository): BaseViewModel<Boolean?, SplashViewState>() {
+class SplashViewModel(val notesRepository: NotesRepository) : BaseViewModel<Boolean>() {
 
-    fun requestUser(){
-        notesRepository.getCurrentUser().observeForever {
-            viewStateLiveData.value = it?.let { SplashViewState(true) } ?: let {
-                SplashViewState(error = NoAuthException())
-            }
-        }
+    fun requestUser() = launch {
+        notesRepository.getCurrentUser()?.let {
+            setData(true)
+        } ?: setError(NoAuthException())
     }
-
 }
